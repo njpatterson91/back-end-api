@@ -16,6 +16,23 @@ router.get("/" , (req, res) => {
     })
 })
 
+router.get("/:id/potlucks", (req, res) => {
+    const { id } = req.params;
+
+    Users.findPotlucksByUserId(id)
+        .then(potlucks => {
+            if(potlucks) {
+                res.status(200).json(potlucks)
+            }
+            else {
+                res.status(404).json({message: "Could not find any potlucks associated with the given User ID"})
+            }
+        })
+        .catch(error => {
+            res.status(500).json({message: error.message})
+        })
+})
+
 router.get("/:id", (req, res) => {
 
     const { id } = req.params

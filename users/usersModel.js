@@ -6,7 +6,8 @@ module.exports = {
     findUserbyId,
     addUser,
     removeUser,
-    updateUser
+    updateUser,
+    findPotlucksByUserId
 };
 
 function findUsers() {
@@ -21,6 +22,15 @@ function findUserbyId(id) {
     .select("id", "first_name", "last_name", "email", "username")
     .first();
 };
+
+// this endpoint works but I need to play around with what it returns
+function findPotlucksByUserId(id) {
+    return db("users")
+    .where("users.id",'=', id)
+    .join("users_potlucks", "users.id", '=', "users_potlucks.user_id")
+    .join("potlucks", "users_potlucks.potluck_id", '=', 'potlucks.id')
+    .select("user_id", "potluck_id", "event_name", "event_address", "attending", "role")
+}
 
 function findUserBy(filter) {
     return db("users")
