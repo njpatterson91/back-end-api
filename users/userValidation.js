@@ -4,7 +4,7 @@ module.exports = {
 }
 
 function isRegisterValid(user) {
-    return Boolean(user.username && user.password && user.role && typeof user.password === 'string');
+    return Boolean(user.username && user.password && typeof user.password === 'string');
 };
 
 function isLoginValid(user) {
