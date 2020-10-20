@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const Potlucks = require('./potluckModel.js');
+const Items = require('./potluckRequirementsModel.js');
 
 router.get("/", (req, res) => {
     Potlucks.findPotlucks()
@@ -28,6 +29,8 @@ router.get("/:id", (req, res) => {
         })
 })
 
+
+
 // endpoint to get all attendees
 router.get("/:id/guests", (req, res) => {
     const {id} = req.params;
@@ -45,6 +48,20 @@ router.get("/:id/guests", (req, res) => {
         res.status(500).json({message: error.message})
     })
 
+})
+
+router.post("/:id/items", (req, res) => {
+    const {id} = req.params;
+
+    const itemInfo = {...req.body, potluck_id: id}
+
+    Items.addItem(itemInfo)
+        .then(item => {
+            res.status(201).json(item)
+        })
+        .catch(error => {
+            res.status(500).json({ message: error.message})
+        })
 })
 
 router.get("/:id/items", (req, res) => {
@@ -70,7 +87,7 @@ router.delete("/:id", (req, res) => {
     Potlucks.removePotluck(id)
     .then(deleted => {
         if (deleted) {
-            res.status(204).json({successfully_removed: deleted})
+            res.status(204).json({message: "Potluck destroyed"})
         } else {
             res.status(404).json({ message: "Could not find potluck with that ID"})
         }
