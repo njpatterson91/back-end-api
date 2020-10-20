@@ -80,4 +80,24 @@ router.delete("/:id", (req, res) => {
     })
 })
 
+router.put("/:id", (req, res) => {
+    const { id } = req.params;
+    const changes = req.body;
+
+    Potlucks.findPotluckById(id)
+        .then(potluck => {
+            if (potluck) {
+                Potlucks.editPotluck(changes, id)
+                .then(updatedPotluck => {
+                    res.status(200).json(updatedPotluck);
+                })
+            } else {
+                res.status(404).json({message: "Could not find potluck with that ID"})
+            }
+        })
+        .catch(error => {
+            res.status(500).json({message: error.message})
+        })
+})
+
 module.exports = router;
