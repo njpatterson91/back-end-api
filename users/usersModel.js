@@ -46,6 +46,8 @@ function addUser(user) {
         })
 }
 
+function organizeAPotluck(potluck) {}
+
 function removeUser(id) {
     return db("users").where({id}).del()
 }

@@ -28,6 +28,25 @@ router.get("/:id", (req, res) => {
         })
 })
 
+// endpoint to get all attendees
+router.get("/:id/guests", (req, res) => {
+    const {id} = req.params;
+    
+    Potlucks.findInvitedUsersByPotluckId(id)
+    .then(guests => {
+        if(guests) {
+            res.status(200).json(guests)
+        }
+        else {
+            res.status(404).json({message: "Could not find any guests associated with the given Potluck ID"})
+        }
+    })
+    .catch(error => {
+        res.status(500).json({message: error.message})
+    })
+
+})
+
 router.get("/:id/items", (req, res) => {
     const {id} = req.params
 
@@ -42,6 +61,22 @@ router.get("/:id/items", (req, res) => {
     })
     .catch(error => {
         res.status(500).json({message: error.message})
+    })
+})
+
+router.delete("/:id", (req, res) => {
+    const { id } = req.params;
+
+    Potlucks.removePotluck(id)
+    .then(deleted => {
+        if (deleted) {
+            res.status(204).json({successfully_removed: deleted})
+        } else {
+            res.status(404).json({ message: "Could not find potluck with that ID"})
+        }
+    })
+    .catch(error => {
+        res.status(500).json({ message: error.message})
     })
 })
 

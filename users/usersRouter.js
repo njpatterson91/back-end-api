@@ -1,5 +1,7 @@
 const router = require('express').Router();
 const Users = require("./usersModel.js");
+const Potlucks = require("../potlucks/potluckModel.js");
+const Users_Potlucks = require("../potlucks/users_potlucksModel.js");
 
 router.get("/" , (req, res) => {
 
@@ -14,6 +16,50 @@ router.get("/" , (req, res) => {
     .catch(err => {
         res.send(err.message);
     })
+})
+
+router.get("/:user_id", (req, res) => {
+
+    const { user_id } = req.params
+
+    Users.findUserbyId(user_id)
+        .then(user => {
+            if(user) {
+                res.status(200).json(user)
+            } else {
+                res.status(404).json({ message: "Could not find user with that ID"})
+            }
+        })
+        .catch(error => {
+            res.status(500).json({message: "Error fetching user. Try again."})
+        })
+})
+
+router.post("/:user_id/potlucks", (req, res) => {
+    const { user_id } = req.params;
+
+    const potluckInfo = req.body;
+
+    Potlucks.addPotluck(potluckInfo)
+    .then(potluck => {
+        const additionalInfo = {
+            user_id: user_id,
+            potluck_id: potluck.id,
+            attending: 1,
+            role: "organizer"
+        }
+        Users_Potlucks.addUsers_Potlucks(additionalInfo)
+        .then(info => {
+            res.status(201).json({newPotluck: potluck, organizerInfo: info})
+        })
+        .catch(error => {
+            res.status(500).json({message: error.message})
+        })
+    })
+    .catch(error => {
+        res.status(500).json({ message: error.message})
+    })
+
 })
 
 router.get("/:id/potlucks", (req, res) => {
@@ -33,20 +79,29 @@ router.get("/:id/potlucks", (req, res) => {
         })
 })
 
-router.get("/:id", (req, res) => {
+// probably need a route for find a specific potluck by user id too
 
-    const { id } = req.params
-
-    Users.findUserbyId(id)
-        .then(user => {
-            if(user) {
-                res.status(200).json(user)
-            } else {
-                res.status(404).json({ message: "Could not find user with that ID"})
+router.get("/:id/potlucks/:potluck_id/items", (req, res) => {
+    const {id, potluck_id} = req.params
+    Users.findPotlucksByUserId(id)
+        .then(potlucks => {
+            if(potlucks) {
+                Potlucks.findItemsByUserAndPotluckId(id, potluck_id)
+                .then(items => {
+                    if(items) {
+                        res.status(200).json(items)
+                    }
+                    else {
+                        res.status(404).json({message: "Could not find any items associated with the given Potluck ID"})
+                    }
+                })
+                .catch(error => {
+                    res.status(500).json({message: error.message})
+                })
             }
         })
         .catch(error => {
-            res.status(500).json({message: "Error fetching user. Try again."})
+            res.status(500).json({message: error.message})
         })
 })
 
