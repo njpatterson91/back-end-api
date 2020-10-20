@@ -4,7 +4,8 @@ module.exports = {
     findUsers_Potlucks,
     findUsers_PotlucksById,
     addUsers_Potlucks,
-    removeUsers_Potlucks
+    removeUsers_Potlucks,
+    editUsers_Potlucks
 };
 
 function findUsers_Potlucks() {
@@ -26,4 +27,8 @@ function addUsers_Potlucks(user_potluck) {
 
 function removeUsers_Potlucks(id) {
     return db("users_potlucks").where({id}).del()
+}
+
+function editUsers_Potlucks(changes, id) {
+    return db("users_potlucks").where({id}).update(changes);
 }
