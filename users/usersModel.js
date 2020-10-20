@@ -12,14 +12,14 @@ module.exports = {
 
 function findUsers() {
     return db("users")
-            .select("id", "username")
+            .select("id", "username", "first_name", "last_name", "email")
             .orderBy("id")
 };
 
 function findUserbyId(id) {
     return db("users")
     .where({id})
-    .select("id", "first_name", "last_name", "email", "username")
+    .select("id", "username", "first_name", "last_name", "email")
     .first();
 };
 
