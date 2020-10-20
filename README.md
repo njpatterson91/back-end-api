@@ -17,6 +17,7 @@ GET /api/users/:id --> returns details about the specific user who's ID is passe
 
 GET /api/users/:id/potlucks --> returns all the potlucks that the given user id is organizing or attending as guest
 
+
 GET /api/users/:id/potlucks/:potluck_id/items --> returns all items that a specific user is responsible for at a specific potluck
 
 POST /api/users/:id/potlucks --> creates a new potluck with the specified user as the organizer 
@@ -44,8 +45,14 @@ PUT /api/potlucks/:id ---> Updates potluck information
 TO BE ADDED TODAY:
 
 - need a way to invite/ uninvite a user to potluck
+
 - need a way to add items and assign them to people
+
 - need to add the get request for viewing a single potluck specific to user
+    DONE
+    / GET /api/users/:id/potlucks/:potluck_id --> Returns a specific potluck that a specific user is invited to 
+
+
 - need a way for someone who's been invited to change their attendance status
 
 

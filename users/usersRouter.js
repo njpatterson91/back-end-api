@@ -80,6 +80,33 @@ router.get("/:id/potlucks", (req, res) => {
 })
 
 // probably need a route for find a specific potluck by user id too
+router.get("/:id/potlucks/:potluck_id", (req, res) => {
+    const { id, potluck_id } = req.params;
+
+    Users.findPotlucksByUserId(id)
+        .then(potlucks => {
+            if (potlucks) {
+                Potlucks.findPotluckById(potluck_id)
+                .then(potluck => {
+                    if(potluck) {
+                        res.status(200).json(potluck)
+                    } else {
+                        res.status(404).json({message: "Could not find potluck with that ID"})
+                    }
+                })
+                .catch(error => {
+                    res.status(500).json({message: error.message})
+                })
+            } else {
+                res.status(404).json({ message: "Could not find user with that ID"})
+            }
+        })
+        .catch(error => {
+            res.status(500).json({message: error.message})
+        })
+        
+})
+
 
 router.get("/:id/potlucks/:potluck_id/items", (req, res) => {
     const {id, potluck_id} = req.params
@@ -111,7 +138,7 @@ router.delete("/:id", (req, res) => {
     Users.removeUser(id)
         .then(deleted => {
             if (deleted) {
-                res.status(204).json({successfully_removed: deleted})
+                res.status(204).json({message: "User was destroyed"})
             } else {
                 res.status(404).json({ message: "Could not find user with that ID"})
             }
