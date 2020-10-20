@@ -5,6 +5,7 @@ const cors = require('cors');
 const server = express();
 const usersRouter = require("../users/usersRouter.js");
 const authRouter = require("../auth/authRouter.js");
+const potluckRouter = require("../potlucks/potluckRouter.js");
 
 server.use(helmet());
 server.use(express.json());
@@ -12,6 +13,7 @@ server.use(cors());
 
 server.use("/api/users", usersRouter);
 server.use("/api/auth", authRouter);
+server.use("/api/potlucks", potluckRouter);
 
 server.get("/", (req, res) => {
     res.json({endpoints: "are up and running"});
