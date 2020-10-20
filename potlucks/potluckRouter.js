@@ -30,8 +30,12 @@ router.get("/:id", (req, res) => {
 })
 
 
+router.post("/:id/guests", (req, res) => {
+    const { id } = req.params;
+    
+    
+})
 
-// endpoint to get all attendees
 router.get("/:id/guests", (req, res) => {
     const {id} = req.params;
     

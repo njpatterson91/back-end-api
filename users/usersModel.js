@@ -34,7 +34,8 @@ function findPotlucksByUserId(id) {
 
 function findUserBy(filter) {
     return db("users")
-        .where(filter)        
+        .where(filter)
+               
 }
 
 function addUser(user) {
@@ -46,7 +47,6 @@ function addUser(user) {
         })
 }
 
-function organizeAPotluck(potluck) {}
 
 function removeUser(id) {
     return db("users").where({id}).del()
