@@ -79,6 +79,32 @@ router.get("/:id/potlucks", (req, res) => {
         })
 })
 
+// this doesn't work
+router.put("/:id/potlucks/:potluck_id", (req, res) => {
+    const {id, potluck_id} = req.params;
+    const changes = req.body;
+
+    Users_Potlucks.findInviteByPotluckAndUser({user_id: id, potluck_id: potluck_id})
+    .then(invites => {
+        if(invites) {
+            const invite = invites[0]
+            Users_Potlucks.editUsers_Potlucks(changes, invite.id)
+            .then(updatedInvite => {
+                res.status(200).json({ message: "successfully updated"});
+            })
+            .catch(error => {
+                res.status(404).json("Could not find potluck invite matching that user and event")
+            })
+        } else {
+            res.status(404).json({message: "Could not find invite that meets those specifications "})
+        }
+    })
+    .catch(error => {
+        res.status(500).json({ message: error.message})
+    })
+
+})
+
 
 router.get("/:id/potlucks/:potluck_id", (req, res) => {
     const { id, potluck_id } = req.params;

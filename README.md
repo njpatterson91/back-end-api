@@ -54,6 +54,9 @@ TO BE ADDED TODAY:
  / POST /api/potlucks/:id/items --> Create a new item for the specified potluck. 
    -only requires an item_name, other optional fields are item_category, item_name, item_description, item_amount , assigned_to_user_id (working on a way to make this last one happen more dynamically)
 
+ASSIGNING TO USER is Done
+/ PUT /
+
 - need to add the get request for viewing a single potluck specific to user
     DONE
     / GET /api/users/:id/potlucks/:potluck_id --> Returns a specific potluck that a specific user is invited to 
