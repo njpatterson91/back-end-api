@@ -90,7 +90,7 @@ router.post("/:id/items", (req, res) => {
 })
 
 router.put("/:id/items/:item_id", (req, res) => {
-    const {id, item_id} = req.params;
+    const { item_id} = req.params;
     const { user_id } = req.body;
 
     Users.findUserBy({ id: user_id })
