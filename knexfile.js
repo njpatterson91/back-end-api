@@ -1,5 +1,5 @@
 // Update with your config settings.
-const pgConnection = process.env.DATABASE_URL || "postgresql://postgres@localhost/api/users";
+const pgConnection = process.env.DATABASE_URL || "postgresql://postgres@localhost/potluckAPI";
 
 module.exports = {
 

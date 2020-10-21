@@ -45,8 +45,14 @@ PUT /api/potlucks/:id ---> Updates potluck information
 TO BE ADDED TODAY:
 
 - need a way to invite/ uninvite a user to potluck
+   INVITE is DONE
+   / POST /api/potlucks/:id/guests ---> for the specified potluck, this will invite a user based on their username. Only need to pass in username property.
+   I will probably only add an uninvite feature if we think that is important
 
 - need a way to add items and assign them to people
+ DONE 
+ / POST /api/potlucks/:id/items --> Create a new item for the specified potluck. 
+   -only requires an item_name, other optional fields are item_category, item_name, item_description, item_amount , assigned_to_user_id (working on a way to make this last one happen more dynamically)
 
 - need to add the get request for viewing a single potluck specific to user
     DONE

@@ -1,6 +1,9 @@
 const router = require('express').Router();
+
 const Potlucks = require('./potluckModel.js');
 const Items = require('./potluckRequirementsModel.js');
+const Users = require("../users/usersModel.js");
+const Users_Potlucks = require('./users_potlucksModel.js');
 
 router.get("/", (req, res) => {
     Potlucks.findPotlucks()
@@ -32,8 +35,26 @@ router.get("/:id", (req, res) => {
 
 router.post("/:id/guests", (req, res) => {
     const { id } = req.params;
-    
-    
+    const { username } = req.body;
+    Users.findUserBy({username: username})
+    .then(users  => {
+        const user = users[0]
+        const inviteInfo = {
+            user_id: user.id,
+            potluck_id: id,
+            role: "guest"
+        }
+        Users_Potlucks.addUsers_Potlucks(inviteInfo)
+            .then(info => {
+                res.status(201).json({invitedUser: user, inviteDetail: info})
+            })
+            .catch(error => {
+                res.status(500).json({message: error.message})
+            })      
+    })
+    .catch(error => {
+        res.status(500).json({ message: error.message})
+    })
 })
 
 router.get("/:id/guests", (req, res) => {
