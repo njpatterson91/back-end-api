@@ -79,7 +79,7 @@ router.get("/:id/potlucks", (req, res) => {
         })
 })
 
-// probably need a route for find a specific potluck by user id too
+
 router.get("/:id/potlucks/:potluck_id", (req, res) => {
     const { id, potluck_id } = req.params;
 
@@ -106,6 +106,8 @@ router.get("/:id/potlucks/:potluck_id", (req, res) => {
         })
         
 })
+
+
 
 
 router.get("/:id/potlucks/:potluck_id/items", (req, res) => {
@@ -158,7 +160,10 @@ router.put('/:id', (req, res) => {
                 Users.updateUser(changes, id)
                 .then(updatedUser => {
                     res.status(200).json(updatedUser);
-                });
+                })
+                .catch(error => {
+                    res.status(500).json({message: error.message})
+                })
             } else {
                 res.status(404).json({ message: "Could not find user with that ID"})
             }

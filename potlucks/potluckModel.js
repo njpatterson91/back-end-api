@@ -38,7 +38,7 @@ function findInvitedUsersByPotluckId(potluck_id) {
     return db("users_potlucks as up")
         .where("up.potluck_id", '=', potluck_id)
         .join("users as u", 'up.user_id', '=', 'u.id')
-        .select('up.potluck_id', 'up.user_id', 'u.first_name', 'u.last_name', 'u.email', 'u.username', 'up.role')
+        .select('up.potluck_id', 'up.attending', 'up.user_id', 'u.first_name', 'u.last_name', 'u.email', 'u.username', 'up.role')
 }
 
 function addPotluck(potluck) {
