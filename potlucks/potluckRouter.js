@@ -89,6 +89,35 @@ router.post("/:id/items", (req, res) => {
         })
 })
 
+router.put("/:id/items/:item_id", (req, res) => {
+    const {id, item_id} = req.params;
+    const { username } = req.body;
+
+    Users.findUserBy({ username: username})
+    .then(users => {
+        if(users) {
+            const user = users[0]
+            const changes = {
+                assigned_to_user_id: user.id
+            }
+            Items.editItem(changes, item_id)
+            .then(updatedItem => {
+                res.status(200).json({ message: "successfully updated"});
+            })
+            .catch(error => {
+                res.status(404).json({message: "Could not find item with that id"})
+            })
+        } else {
+            res.status(404).json({ message: "Could not find user with that username"})
+        }
+    })
+    .catch(error => {
+        res.status(500).json({ message: error.message})
+    })
+
+
+})
+
 router.get("/:id/items", (req, res) => {
     const {id} = req.params
 

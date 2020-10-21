@@ -24,8 +24,6 @@ function findUsers_PotlucksByUserIdAndPotluckId(user_id, potluck_id) {
             .first()
 }
 
-
-
 function addUsers_Potlucks(user_potluck) {
     return db('users_potlucks')
         .insert(user_potluck, "id")
