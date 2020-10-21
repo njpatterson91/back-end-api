@@ -16,7 +16,9 @@ function findPotlucks() {
 }
 
 function findPotluckById(id) {
-    return db("potlucks").where({ id }).first()
+    return db("potlucks")
+        .where({ id })
+        .first()
 }
 
 function findItemsByPotluckId(id) {

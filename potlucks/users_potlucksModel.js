@@ -6,7 +6,7 @@ module.exports = {
     addUsers_Potlucks,
     removeUsers_Potlucks,
     editUsers_Potlucks,
-    findUsers_PotlucksByUserIdAndPotluckId
+    findInviteByPotluckAndUser
 };
 
 function findUsers_Potlucks() {
@@ -17,11 +17,18 @@ function findUsers_PotlucksById(id) {
     return db("users_potlucks").where({ id }).first()
 }
 
-function findUsers_PotlucksByUserIdAndPotluckId(user_id, potluck_id) {
-    return db('users_potlucks as up')
-            .where({user_id})
-            .andWhere({potluck_id})
-            .first()
+// function findUsers_PotlucksByUserIdAndPotluckId(user_id, potluck_id) {
+//     return db('users_potlucks as up')
+//             .where({user_id})
+//             .andWhere({potluck_id})
+//             .first()
+// }
+
+function findInviteByPotluckAndUser(user_id, potluck_id) {
+    return db('users_potlucks')
+        .where(user_id)
+        .andWhere(potluck_id)
+        .first()
 }
 
 function addUsers_Potlucks(user_potluck) {

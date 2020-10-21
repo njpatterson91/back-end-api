@@ -91,9 +91,9 @@ router.post("/:id/items", (req, res) => {
 
 router.put("/:id/items/:item_id", (req, res) => {
     const {id, item_id} = req.params;
-    const { username } = req.body;
+    const { user_id } = req.body;
 
-    Users.findUserBy({ username: username})
+    Users.findUserBy({ id: user_id })
     .then(users => {
         if(users) {
             const user = users[0]
